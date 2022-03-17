@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [FileUpload::class, 'createForm']);
-Route::post('/upload-file', [FileUpload::class, 'fileUpload'])->name('fileUpload');
-Route::get('files/{file}/download', [FileUpload::class, 'fileDownload'])->name('fileDownload');
+Route::get('login', [Controller::class, 'login'])->name('login');
 
-/**
+  Route::get('/', [FileUpload::class, 'createForm']);
+  Route::post('/upload-file', [FileUpload::class, 'fileUpload'])->name('fileUpload');
+  Route::get('/files/{file}/download', [FileUpload::class, 'fileDownload'])->name('fileDownload');
+
+  /**
  * BEGIN: Injected from .gp/snippets/laravel/routes/web/allow-mixed-web.snippet
  */
 
