@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FileUpload extends Controller
 {
     public function createForm() {
-        return view('file-upload', ['files' => File::all()]);
+        return view('file-upload', ['files' => File::where('user_id', '=', Auth::id())->get()]);
     }
 
     public function fileUpload(Request $request) {
@@ -19,6 +20,7 @@ class FileUpload extends Controller
             $filePath = $request->file('file')->storeAs('uploads', $fileName, 'public');
             $fileModel->name = time().'_'.$request->file->getClientOriginalName();
             $fileModel->file_path = 'app/public/' . $filePath;
+            $fileModel->user_id = Auth::id();
             $fileModel->save();
             return back()
                 ->with('success','File has been uploaded.')
@@ -27,6 +29,8 @@ class FileUpload extends Controller
     }
     public function fileDownload(File $file)
     {
-    return response()->download(storage_path($file->file_path));
-}
+        if ($file->user_id === Auth::id()) {
+            return response()->download(storage_path($file->file_path));
+        }
+    }
 }

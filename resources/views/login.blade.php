@@ -7,11 +7,9 @@
     <title>Login</title>
 </head>
 <body>
-<div class="grid place-items-center h-screen">
-  <div>
-  <form action="{{route('fileUpload')}}" method="post" enctype="multipart/form-data">
-        <h1 class="text-center mb-5 text-3xl">Upload File in Laravel</h1>
-        @csrf
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="px-8 py-6 mt-4 text-left bg-white shadow-lg">
+        <h3 class="text-2xl font-bold text-center">Login to your account</h3>
         @if ($message = Session::get('success'))
             <div class="relative px-3 py-3 mb-4 border rounded bg-green-200 border-green-300 text-green-800">
                 <strong>{{ $message }}</strong>
@@ -26,28 +24,25 @@
                 </ul>
             </div>
         @endif
-        <label class="block">
-            <span class="sr-only">Choose your file</span>
-            <input name="file" type="file" class="block w-full text-sm text-slate-500
-      file:mr-4 file:py-2 file:px-4
-      file:rounded-full file:border-0
-      file:text-sm file:font-semibold
-      file:bg-violet-50 file:text-violet-700
-      hover:file:bg-violet-100
-      transition-all
-    "/>
-        </label>
-        <button type="submit" name="submit"
-                class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-violet-600 text-white hover:bg-violet-800 block w-full mt-4 transition-all">
-            Upload Files
-        </button>
-    </form>
-    <ul class="mt-5">
-      @foreach ($files as $file)
-          <li><a class="cursor-pointer text-violet-500 hover:text-violet-800 translate-all" href="{{ route('fileDownload', $file->id) }}">{{ $file->name }}</a></li>
-      @endforeach
-  </ul>
-  </div>
+        <form action="{{route('loginUser')}}" method="post">
+        @csrf <!-- {{ csrf_field() }} -->
+            <div class="mt-4">
+                <div>
+                    <label class="block" for="email">Email</label>
+                            <input name="email" id="email" type="text" placeholder="Email"
+                                   class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                </div>
+                <div class="mt-4">
+                    <label class="block" for="password">Password</label>
+                            <input name="password" id="password" type="password" placeholder="Password"
+                                   class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                </div>
+                <div class="flex items-baseline justify-between">
+                    <button type="submit" class="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>
